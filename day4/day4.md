@@ -52,4 +52,7 @@ then that person's privacy would be fully protected.
 
 In other words, if the query doesn't change after we remove someone 
 from the database, then that person wasn't leaking any statistical 
-information into the output of the query. 
+information into the output of the query.
+
+### Articles
+[Idea of differential privacy and why is it important](https://medium.com/secure-and-private-ai-writing-challenge/idea-of-differential-privacy-and-why-is-it-important-5fccad64a1a)
