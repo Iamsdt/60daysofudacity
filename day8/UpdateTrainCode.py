@@ -155,7 +155,6 @@ def test(model, test_loader, device, criterion, classes,
 
 
 def visualize(loader, classes):
-
     data_iter = iter(loader)
     images, labels = data_iter.next()
 
@@ -185,3 +184,8 @@ def check(path, model, train_loader, transformer, device):
                         print(key)
                 plt.imshow(np.array(f))
                 plt.show()
+
+
+
+
+
