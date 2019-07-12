@@ -4,6 +4,7 @@ import numpy as np  # linear algebra
 import torch
 from PIL import Image
 from matplotlib import pyplot as plt
+from tqdm import tqdm
 
 
 def load_model(model, name):
@@ -29,7 +30,7 @@ def train(model, epochs, total_class, train_loader,
     class_correct = list(0. for i in range(total_class))
     class_total = list(0. for i in range(total_class))
 
-    for epoch in range(n_epochs):
+    for epoch in tqdm(range(n_epochs)):
         # monitor training loss
         train_loss = 0.0
         valid_loss = 0.0
