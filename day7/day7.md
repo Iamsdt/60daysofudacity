@@ -64,3 +64,6 @@ So minimize a noise and accuracy is a tradeoff.
 if your data set is small then you should go through 
 Global differential privacy. For larger dataset use local 
 differential privacy.
+
+
+# day 17
