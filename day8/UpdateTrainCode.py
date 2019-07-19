@@ -163,7 +163,7 @@ def visualize(loader, classes):
     fig = plt.figure(figsize=(25, 5))
     for idx in range(2):
         ax = fig.add_subplot(1, 5, idx + 1, xticks=[], yticks=[])
-        # unnormolaize first
+        # denormalize first
         img = images[idx] / 2 + 0.5
         npimg = img.numpy()
         img = np.transpose(npimg, (1, 2, 0))  # transpose
