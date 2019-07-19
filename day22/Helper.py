@@ -10,11 +10,6 @@ from matplotlib import pyplot as plt
 from PIL import Image
 
 
-#####################
-### Prepare Loader###
-#####################
-
-
 def prepare_loader(train_dir, test_dir, transform_train, test_transforms,
                    batch_size=64, test_size=0.2, num_workers=0):
     """
@@ -64,9 +59,6 @@ def prepare_loader(train_dir, test_dir, transform_train, test_transforms,
     return [train_loader, test_loader]
 
 
-###################
-### Visualize #####
-###################
 def visualize(loader, classes, num_of_image=2, fig_size=(25, 5)):
     """
     Helper function for visualize data
@@ -90,9 +82,6 @@ def visualize(loader, classes, num_of_image=2, fig_size=(25, 5)):
         ax.set_title(classes[labels[idx]])
 
 
-###############
-# Save model
-###############
 def load_latest_model(model, name="model.pt"):
     """
     Helper function for Load model
@@ -238,11 +227,6 @@ def load_checkpoint(path, model, optimizer_name='adam', lr=0.003, momentum=None,
         return [model, optimizer]
 
 
-######################
-### Freeze unfreeze
-#####################
-
-
 def freeze_parameters(model):
     """
     Helper function for freeze parameter
@@ -267,9 +251,6 @@ def unfreeze(model):
     return model
 
 
-######################
-## Train #########
-##################
 def train(model, train_loader, test_loader,
           epochs, optimizer, criterion, scheduler=None,
           name="model.pt", path=None):
@@ -468,10 +449,6 @@ def check_overfitted(train_loss, test_loss):
     plt.plot(test_loss, label="validation loss")
     plt.legend(frameon=False)
 
-
-####################
-# Testing
-###################
 
 def test_per_class(model, test_loader, criterion, classes):
     """
