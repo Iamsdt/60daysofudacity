@@ -7,6 +7,7 @@ from torch.optim import lr_scheduler
 from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import datasets
 from matplotlib import pyplot as plt
+from PIL import Image
 
 
 #####################
@@ -564,3 +565,30 @@ def test(model, loader, criterion=None):
               "\nAccuracy: {:.4f}".format(accuracy / len(loader) * 100))
     else:
         print("Accuracy: {:.4f}".format(accuracy / len(loader) * 100))
+
+
+def test_single_image(model, transform, loader, file):
+    """
+    Helper function for identify single image
+    :param model: current model
+    :param transform: transform
+    :param loader: data loader
+    :param file: single image file
+    :return: the predicted key and value
+    """
+
+    ids = loader.dataset.class_to_idx
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    m_key, m_value = 0, 0
+    with Image.open(file) as f:
+        img = transform(f).unsqueeze(0)
+        with torch.no_grad():
+            out = model(img.to(device)).cpu().numpy()
+            for key, value in ids.items():
+                if value == np.argmax(out):
+                    print(f"Predicted Label:Key {key} and value {value}")
+                    m_key = key, m_value = value
+            plt.imshow(np.array(f))
+            plt.show()
+
+    return [m_key, m_value]
