@@ -7,7 +7,6 @@ from torch.optim import lr_scheduler
 from torch.utils.data.sampler import SubsetRandomSampler
 from torchvision import datasets
 from matplotlib import pyplot as plt
-from PIL import Image
 
 
 def prepare_loader(train_dir, test_dir, transform_train, test_transforms,
