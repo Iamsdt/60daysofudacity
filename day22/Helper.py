@@ -10,37 +10,7 @@ from matplotlib import pyplot as plt
 from PIL import Image
 
 
-def prepare_loader(root_train, root_test, train_transform, test_transforms,
-                   batch_size=64, num_workers=0):
-    """
-        Helper function for prepare data loader by splitting images into test and valid
-        :param root_train: train data directory
-        :param root_test: train data directory
-        :param train_transform: train transform
-        :param test_transforms: test transform
-        :param batch_size: batch size, default 64
-        :param num_workers: num of worker, default 0
-        :return: train loader and test loader, classes and classes to idx
-        """
-
-    # data set
-    train_data = datasets.ImageFolder(root_train, transform=train_transform)
-    test_data = datasets.ImageFolder(root_test, transform=test_transforms)
-
-    print("Train size:{}".format(len(train_data)))
-    print("Valid size:{}".format(len(test_data)))
-
-    train_loader = torch.utils.data.DataLoader(
-        train_data, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-
-    test_loader = torch.utils.data.DataLoader(
-        test_data, batch_size=batch_size, num_workers=num_workers)
-
-    return [train_loader, test_loader, train_data.classes, train_data.class_to_idx]
-
-
-def prepare_loader_split(root, train_transform, test_transforms,
-                         batch_size=64, test_size=0.2, num_workers=0):
+def prepare_loader(root, root2, train_transform, test_transforms, batch_size=64, test_size=0.2, num_workers=0):
     """
     Helper function for prepare data loader by splitting images into test and valid
     :param root: train data directory
@@ -54,7 +24,7 @@ def prepare_loader_split(root, train_transform, test_transforms,
 
     # data set
     train_data = datasets.ImageFolder(root, transform=train_transform)
-    test_data = datasets.ImageFolder(root, transform=test_transforms)
+    test_data = datasets.ImageFolder(root2, transform=test_transforms)
 
     # obtain training indices that will be used for validation
     num_train = len(train_data)
@@ -85,27 +55,6 @@ def prepare_loader_split(root, train_transform, test_transforms,
     print("Valid size:{}".format(len(test_data)))
 
     return [train_loader, test_loader]
-
-
-def imshow(img, mean=None, std=None):
-    """
-    Helper function to show image
-    :param img: image data
-    :param mean: mean, default None
-    :param std: std, default NOne
-    :return: None
-    """
-
-    if mean is None:
-        mean = np.array([0.485, 0.456, 0.406])
-
-    if std is None:
-        std = np.array([0.229, 0.224, 0.225])
-
-    inp = img.numpy().transpose((1, 2, 0))
-    inp = std * inp + mean
-    inp = np.clip(inp, 0, 1)
-    plt.imshow(inp)
 
 
 def visualize(loader, classes, num_of_image=2, fig_size=(25, 5)):
@@ -296,25 +245,6 @@ def unfreeze(model):
     """
     for param in model.parameters():
         param.requires_grad = True
-
-    return model
-
-
-def unfreeze_last_layer(model, last_layer_name='classifier'):
-    """
-    Helper function for unfreeze parameters
-    :param model: current model
-    :param last_layer_name: last layer name of the model
-    :return: new model with unfreeze parameters
-    """
-
-    if last_layer_name.lower() == 'classifier':
-        for param in model.classifier.parameters():
-            param.requires_grad = True
-
-    if last_layer_name.lower() == 'fc':
-        for param in model.fc.parameters():
-            param.requires_grad = True
 
     return model
 
@@ -613,22 +543,3 @@ def test(model, loader, criterion=None):
               "\nAccuracy: {:.4f}".format(accuracy / len(loader) * 100))
     else:
         print("Accuracy: {:.4f}".format(accuracy / len(loader) * 100))
-
-
-def test_with_single_image(model, file, transform, classes):
-
-    file = Image.open(file).convert('RGB')
-
-    img = transform(file).unsqueeze(0)
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    with torch.no_grad():
-        out = model(img.to(device))
-        ps = torch.exp(out)
-        top_p, top_class = ps.topk(1, dim=1)
-        value = top_class.item()
-        print("Value:", value)
-        print(classes[value])
-        plt.imshow(np.array(file))
-        plt.show()
