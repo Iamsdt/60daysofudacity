@@ -7,7 +7,6 @@ class BasicResNet(nn.Module):
     def __init__(self, in_channels, out_channels, **kwargs):
         super(BasicResNet, self).__init__()
         self.conv1 = nn.Conv2d(in_channels, out_channels, bias=False, **kwargs)
-
         self.bach1 = nn.BatchNorm2d(out_channels)
 
     def forward(self, x):
