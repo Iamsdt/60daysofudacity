@@ -79,7 +79,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model_ds.to(device)
 model_gn.to(device)
 
-criterion = nn.BCELoss()
+criterion = nn.BCEWithLogitsLoss()
 
 from torch import optim
 
