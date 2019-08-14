@@ -1,3 +1,3 @@
 import torch
 
-print(torch.ones(10, 1))
+print(torch.randn(5,5))

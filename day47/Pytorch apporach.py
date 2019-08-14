@@ -61,9 +61,6 @@ lr = 0.0002
 # Beta1 hyperparam for Adam optimizers
 beta1 = 0.5
 
-# Number of GPUs available. Use 0 for CPU mode.
-ngpu = 1
-
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
 dataset = dset.ImageFolder(root=dataroot,
@@ -78,7 +75,7 @@ dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
                                          shuffle=True, num_workers=workers)
 
 # Decide which device we want to run on
-device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
+device = torch.device("cuda:0" if (torch.cuda.is_available()) else "cpu")
 
 # Plot some training images
 real_batch = next(iter(dataloader))
@@ -100,9 +97,8 @@ def weights_init(m):
 
 # Generator Code
 class Generator(nn.Module):
-    def __init__(self, ngpu):
+    def __init__(self):
         super(Generator, self).__init__()
-        self.ngpu = ngpu
         self.main = nn.Sequential(
             # input is Z, going into a convolution
             nn.ConvTranspose2d( nz, ngf * 8, 4, 1, 0, bias=False),
@@ -131,12 +127,7 @@ class Generator(nn.Module):
 
 
 # Create the generator
-netG = Generator(ngpu).to(device)
-
-# Handle multi-gpu if desired
-if (device.type == 'cuda') and (ngpu > 1):
-    netG = nn.DataParallel(netG, list(range(ngpu)))
-
+netG = Generator().to(device)
 # Apply the weights_init function to randomly initialize all weights
 #  to mean=0, stdev=0.2.
 netG.apply(weights_init)
@@ -146,9 +137,8 @@ print(netG)
 
 
 class Discriminator(nn.Module):
-    def __init__(self, ngpu):
+    def __init__(self):
         super(Discriminator, self).__init__()
-        self.ngpu = ngpu
         self.main = nn.Sequential(
             # input is (nc) x 64 x 64
             nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
@@ -175,11 +165,7 @@ class Discriminator(nn.Module):
 
 
 # Create the Discriminator
-netD = Discriminator(ngpu).to(device)
-
-# Handle multi-gpu if desired
-if (device.type == 'cuda') and (ngpu > 1):
-    netD = nn.DataParallel(netD, list(range(ngpu)))
+netD = Discriminator().to(device)
 
 # Apply the weights_init function to randomly initialize all weights
 #  to mean=0, stdev=0.2.
