@@ -90,14 +90,21 @@ class Discriminator(nn.Module):
             nn.LeakyReLU(0.2, inplace=True)
         )
 
-        self.fc = nn.Linear(nf * 8 * 4 * 4, 1)
+        self.conv5 = nn.Sequential(
+            nn.Conv2d(nf * 8, nf * 12, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(nf * 12),
+            nn.LeakyReLU(0.2, inplace=True)
+        )
+
+        self.fc = nn.Linear(nf * 12 * 4 * 4, 1)
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
         x = self.conv4(x)
-        x = x.view(-1, self.nf * 8 * 4 * 4)
+        x = self.conv5(x)
+        x = x.view(-1, self.nf * 12 * 4 * 4)
         x = self.fc(x)
         return torch.sigmoid(x)
 
@@ -118,38 +125,45 @@ class Generator(nn.Module):
         super(Generator, self).__init__()
         self.z_size = z_size
         self.nf = nf
-        self.fc = nn.Linear(self.z_size, self.nf * 8 * 4 * 4)
+        self.fc = nn.Linear(self.z_size, self.nf * 12 * 4 * 4)
 
         self.dconv1 = nn.Sequential(
+            nn.ConvTranspose2d(nf * 12, nf * 8, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(nf * 8),
+            nn.ReLU(inplace=True)
+        )
+
+        self.dconv2 = nn.Sequential(
             nn.ConvTranspose2d(nf * 8, nf * 4, 4, 2, 1, bias=False),
             nn.BatchNorm2d(nf * 4),
             nn.ReLU(inplace=True)
         )
 
-        self.dconv2 = nn.Sequential(
+        self.dconv3 = nn.Sequential(
             nn.ConvTranspose2d(nf * 4, nf * 2, 4, 2, 1, bias=False),
             nn.BatchNorm2d(nf * 2),
             nn.ReLU(inplace=True)
         )
 
-        self.dconv3 = nn.Sequential(
+        self.dconv4 = nn.Sequential(
             nn.ConvTranspose2d(nf * 2, nf, 4, 2, 1, bias=False),
             nn.BatchNorm2d(nf),
             nn.ReLU(inplace=True)
         )
 
-        self.dconv4 = nn.Sequential(
+        self.dconv5 = nn.Sequential(
             nn.ConvTranspose2d(nf, input_channel, 4, 2, 1, bias=False),
             nn.Tanh()
         )
 
     def forward(self, x):
         x = self.fc(x)
-        x = x.view(-1, self.nf*8, 4, 4)
+        x = x.view(-1, self.nf*12, 4, 4)
         x = self.dconv1(x)
         x = self.dconv2(x)
         x = self.dconv3(x)
-        return self.dconv4(x)
+        x = self.dconv4(x)
+        return self.dconv5(x)
 
 
 # Create the generator
