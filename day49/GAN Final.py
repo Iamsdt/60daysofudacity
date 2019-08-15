@@ -264,7 +264,7 @@ for epoch in range(num_epochs):
         ############################
         # Train G network: maximize log(D(G(z)))
         ###########################
-        netG.zero_grad()
+        optimizerG.zero_grad()
         # crete new noise
         noise = torch.randn(b_size, z_dim, device=device)
         # Generate fake image
