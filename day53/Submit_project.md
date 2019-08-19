@@ -20,9 +20,8 @@ Fork repo
 
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step3.png)
 
-After complete it will ask you to open project
-
-click yes
+##### After complete it will ask you to open project
+- click yes
 
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step4.png)
 
@@ -39,7 +38,7 @@ copy all the files (you want to submit) into new directory
 
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step6.png)
 
-It will ask you to add all the files to git
+##### It will ask you to add all the files to git
 - click add
 
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step6_1.png)
@@ -53,11 +52,11 @@ then browse to git → repository → Branches
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step7.png)
 
 
-click Branches
+##### click Branches
 
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step8.png)
 
-Now click new  Branch
+##### Now click new  Branch
 - create new branch with your slack name
 
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step9.png)
@@ -79,7 +78,7 @@ Time to push
 - and Click push
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step11.png)
 
-After push complete you will get push complete notification
+#####  After push complete you will get push complete notification
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step12.png)
 
 
@@ -91,12 +90,12 @@ Go to your Github account
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step13.png)
 
 
-After click it will open a pull request page
+##### After click it will open a pull request page
 - write your message
 - click  Create Pull Request
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step14.png)
 
-Now you will see
+##### Now you will see
 
 ![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/steplast.png)
 
