@@ -3,7 +3,7 @@
 # Step 1:
 Fork repo
 
-![step1](../img/step1)
+![step1](https://github.com/Iamsdt/60daysofudacity/blob/master/day53/pic/step1.png)
  
 # Step 2:
 - Go to your Github account
